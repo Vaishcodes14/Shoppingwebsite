@@ -334,20 +334,17 @@ img { max-width: 100%; display: block; }
   background: var(--black);
 }
 /* HERO TOP BANNER */
-.hero-banner {
+..hero-banner {
   position: absolute;
-  top: 20px;
+  top: 10px;   /* 👈 FIXED */
   left: 50%;
   transform: translateX(-50%);
   background: var(--black);
   color: var(--white);
-  padding: 10px 20px;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  border-radius: 30px;
-  box-shadow: var(--shadow-md);
-  z-index: 10;
-  animation: fadeSlide 1s ease;
+  padding: 8px 18px;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  z-index: 999;   /* 👈 VERY IMPORTANT */
 }
 
 @keyframes fadeSlide {
