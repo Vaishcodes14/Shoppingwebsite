@@ -189,6 +189,7 @@ img { max-width: 100%; display: block; }
 }
 
 .hero-content {
+  position: relative;   /* ADD THIS */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 64px;
