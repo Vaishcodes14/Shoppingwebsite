@@ -214,24 +214,78 @@
     </section>
 
     <!-- PRODUCTS -->
-    <section class="products-section section" id="products">
-      <div class="container">
-        <div class="products-header">
-          <div class="section-head">
-            <p class="section-label" id="productsLabel">All Products</p>
-            <h2 class="section-title">Featured Pieces</h2>
-          </div>
-          <div class="products-filters">
-            <button class="filter-btn active" data-filter="all" onclick="filterProducts('all', this)">All</button>
-            <button class="filter-btn" data-filter="dresses" onclick="filterProducts('dresses', this)">Dresses</button>
-            <button class="filter-btn" data-filter="tops" onclick="filterProducts('tops', this)">Tops</button>
-            <button class="filter-btn" data-filter="kurtas" onclick="filterProducts('kurtas', this)">Kurtas</button>
-            <button class="filter-btn" data-filter="coords" onclick="filterProducts('coords', this)">Co-ords</button>
+   <section class="products-section section" id="products">
+  <div class="container">
+
+    <div class="products-header">
+      <div class="section-head">
+        <p class="section-label">All Products</p>
+        <h2 class="section-title">Featured Pieces</h2>
+      </div>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- PRODUCT 1 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab" alt="Dress">
+          <div class="product-overlay">
+            <button onclick="addToCart('Floral Dress',1299)">Add to Cart</button>
           </div>
         </div>
-        <div class="products-grid" id="productsGrid"></div>
+        <div class="product-info">
+          <h3>Floral Summer Dress</h3>
+          <p class="price">₹1299</p>
+        </div>
       </div>
-    </section>
+
+      <!-- PRODUCT 2 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d" alt="Top">
+          <div class="product-overlay">
+            <button onclick="addToCart('Stylish Top',899)">Add to Cart</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Stylish Top</h3>
+          <p class="price">₹899</p>
+        </div>
+      </div>
+
+      <!-- PRODUCT 3 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b" alt="Kurta">
+          <div class="product-overlay">
+            <button onclick="addToCart('Elegant Kurta',1499)">Add to Cart</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Elegant Kurta</h3>
+          <p class="price">₹1499</p>
+        </div>
+      </div>
+
+      <!-- PRODUCT 4 -->
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c" alt="Co-ord">
+          <div class="product-overlay">
+            <button onclick="addToCart('Trendy Co-ord Set',1799)">Add to Cart</button>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3>Trendy Co-ord Set</h3>
+          <p class="price">₹1799</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
 
     <!-- BANNER -->
     <section class="promo-banner">
