@@ -332,6 +332,33 @@ img { max-width: 100%; display: block; }
   width: 24px;
   background: var(--black);
 }
+/* HERO TOP BANNER */
+.hero-banner {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--black);
+  color: var(--white);
+  padding: 10px 20px;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  border-radius: 30px;
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+  animation: fadeSlide 1s ease;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
 
 /* ============================================
    MARQUEE
