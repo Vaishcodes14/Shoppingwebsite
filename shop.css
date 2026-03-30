@@ -1401,3 +1401,15 @@ img { max-width: 100%; display: block; }
   .btn-hero, .btn-hero-ghost { width: 100%; text-align: center; justify-content: center; }
   .chatbot-panel { width: calc(100vw - 32px); right: -14px; }
 }
+.hover-hero {
+  transition: 0.4s;
+}
+
+.hover-hero:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.btn-hero:hover {
+  transform: translateY(-3px);
+}
