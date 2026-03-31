@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DRAPE — Premium fashion for the modern wardrobe." />
+  <title>DRAPE — Modern Fashion Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shop.css" />
+</head>
+<body>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2 class="cart-title">Your Bag <span id="cartCount" class="cart-count">0</span></h2>
+      <button class="cart-close" id="cartClose">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        <div class="cart-empty-icon">🛍️</div>
+        <p>Your bag is empty</p>
+        <span>Add items to get started</span>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="cartTotal">₹0</span>
+      </div>
+      <p class="cart-note">Shipping & taxes calculated at checkout</p>
+      <button class="btn-checkout">Proceed to Checkout</button>
+      <button class="btn-continue" id="continueShopping">Continue Shopping</button>
+    </div>
+  </aside>
+
+  <!-- CHATBOT -->
+  <div class="chatbot-widget" id="chatbotWidget">
+    <button class="chatbot-toggle" id="chatbotToggle">
+      <span class="chatbot-icon-open">💬</span>
+      <span class="chatbot-icon-close" style="display:none">✕</span>
+      <span class="chatbot-badge" id="chatbotBadge">1</span>
+    </button>
+    <div class="chatbot-panel" id="chatbotPanel">
+      <div class="chatbot-header">
+        <div class="chatbot-avatar">✦</div>
+        <div class="chatbot-info">
+          <div class="chatbot-name">DRAPE Assistant</div>
+          <div class="chatbot-status"><span class="online-dot"></span> Online</div>
+        </div>
+        <button class="chatbot-minimize" id="chatbotMinimize">−</button>
+      </div>
+      <div class="chatbot-messages" id="chatbotMessages">
+        <div class="chat-msg bot">
+          <div class="chat-bubble">Hi! 👋 I'm your DRAPE fashion assistant. Ask me anything about outfits, sizing, or our collection!</div>
+        </div>
+        <div class="chat-suggestions">
+          <button class="suggestion-chip" onclick="sendSuggestion('What\'s trending right now?')">What's trending?</button>
+          <button class="suggestion-chip" onclick="sendSuggestion('Help me find a dress under ₹2000')">Dresses under ₹2000</button>
+          <button class="suggestion-chip" onclick="sendSuggestion('What is your return policy?')">Return policy</button>
+        </div>
+      </div>
+      <div class="chatbot-input-area">
+        <div class="api-key-section" id="apiKeySection">
+          <input type="password" id="apiKeyInput" placeholder="Paste your OpenAI API key to activate AI..." />
+          <button onclick="setApiKey()">Activate</button>
+        </div>
+        <div class="chat-input-row" id="chatInputRow" style="display:none">
+          <input type="text" id="chatInput" placeholder="Ask me anything about fashion..." />
+          <button id="chatSend" onclick="sendMessage()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="header-top">Free shipping on orders above ₹1999 &nbsp;|&nbsp; Use code <strong>DRAPE10</strong> for 10% off</div>
+    <nav class="nav container">
+      <div class="nav-left">
+        <button class="nav-icon-btn" id="menuBtn">
+          <span></span><span></span>
+        </button>
+      </div>
+      <a href="#" class="nav-logo">DRAPE</a>
+      <div class="nav-right">
+        <button class="nav-icon-btn" onclick="toggleSearch()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <button class="nav-icon-btn nav-cart-btn" id="cartBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5"/><path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="cart-indicator" id="cartIndicator" style="display:none">0</span>
+        </button>
+      </div>
+    </nav>
+    <div class="search-bar" id="searchBar">
+      <div class="container">
+        <input type="text" id="searchInput" placeholder="Search for dresses, tops, kurtas..." />
+        <button onclick="toggleSearch()">✕</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO SLIDER with real images -->
+    <section class="hero" id="heroSection">
+      <div class="hero-slider" id="heroSlider">
+
+        <!-- Slide 1 -->
+        <div class="hero-slide active">
+          <div class="hero-slide-bg">
+            <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1400&q=85" alt="Summer Collection" />
+            <div class="hero-slide-overlay"></div>
+          </div>
+          <div class="hero-slide-content container">
+            <p class="hero-label">✨ New Collection — Summer 2025</p>
+            <h1 class="hero-title">Elevate Your<br><em>Style</em></h1>
+            <p class="hero-desc">Discover premium fashion designed for modern women. Elegant, comfortable, and made to stand out.</p>
+            <div class="hero-actions">
+              <a href="#products" class="btn-hero">Shop Now</a>
+              <a href="#categories" class="btn-hero-ghost">Explore</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="hero-slide">
+          <div class="hero-slide-bg">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1400&q=85" alt="New Arrivals" />
+            <div class="hero-slide-overlay"></div>
+          </div>
+          <div class="hero-slide-content container">
+            <p class="hero-label">🔥 Trending This Season</p>
+            <h1 class="hero-title">Fresh Drops<br><em>Every Week</em></h1>
+            <p class="hero-desc">Be the first to wear what's new. Handpicked styles from our fashion team.</p>
+            <div class="hero-actions">
+              <a href="#products" class="btn-hero">Shop New Arrivals</a>
+              <a href="#categories" class="btn-hero-ghost">View Lookbook</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="hero-slide">
+          <div class="hero-slide-bg">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1400&q=85" alt="Sale" />
+            <div class="hero-slide-overlay"></div>
+          </div>
+          <div class="hero-slide-content container">
+            <p class="hero-label">🎉 End of Season Sale</p>
+            <h1 class="hero-title">Up to 50%<br><em>Off</em></h1>
+            <p class="hero-desc">Limited time offer. Use code DRAPE10 for an extra 10% off on all orders.</p>
+            <div class="hero-actions">
+              <a href="#products" class="btn-hero">Shop the Sale</a>
+              <a href="#categories" class="btn-hero-ghost">All Categories</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Slider controls -->
+      <button class="hero-prev" onclick="changeSlide(-1)">&#8249;</button>
+      <button class="hero-next" onclick="changeSlide(1)">&#8250;</button>
+      <div class="hero-dots" id="heroDots">
+        <span class="dot active" onclick="goToSlide(0)"></span>
+        <span class="dot" onclick="goToSlide(1)"></span>
+        <span class="dot" onclick="goToSlide(2)"></span>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-strip">
+      <div class="marquee-track">
+        <span>New Arrivals</span><span>✦</span>
+        <span>Summer Collection</span><span>✦</span>
+        <span>Free Shipping Above ₹1999</span><span>✦</span>
+        <span>Easy Returns</span><span>✦</span>
+        <span>Trending Now</span><span>✦</span>
+        <span>New Arrivals</span><span>✦</span>
+        <span>Summer Collection</span><span>✦</span>
+        <span>Free Shipping Above ₹1999</span><span>✦</span>
+        <span>Easy Returns</span><span>✦</span>
+        <span>Trending Now</span><span>✦</span>
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <section class="categories section" id="categories">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-label">Browse by Category</p>
+          <h2 class="section-title">Shop the Edit</h2>
+        </div>
+        <div class="categories-grid">
+          <div class="cat-card cat-large" onclick="filterByCategory('dresses')">
+            <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&q=80" alt="Dresses" />
+            <div class="cat-info"><h3>Dresses</h3><span>24 styles</span></div>
+          </div>
+          <div class="cat-card" onclick="filterByCategory('tops')">
+            <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&q=80" alt="Tops" />
+            <div class="cat-info"><h3>Tops</h3><span>18 styles</span></div>
+          </div>
+          <div class="cat-card" onclick="filterByCategory('kurtas')">
+            <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=400&q=80" alt="Kurtas" />
+            <div class="cat-info"><h3>Kurtas</h3><span>16 styles</span></div>
+          </div>
+          <div class="cat-card" onclick="filterByCategory('coords')">
+            <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=400&q=80" alt="Co-ords" />
+            <div class="cat-info"><h3>Co-ords</h3><span>12 styles</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products-section section" id="products">
+      <div class="container">
+        <div class="section-head" style="margin-bottom:24px">
+          <p class="section-label" id="productsLabel">All Products</p>
+          <h2 class="section-title">Featured Pieces</h2>
+        </div>
+        <div class="products-filters">
+          <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
+          <button class="filter-btn" onclick="filterProducts('dresses', this)">Dresses</button>
+          <button class="filter-btn" onclick="filterProducts('tops', this)">Tops</button>
+          <button class="filter-btn" onclick="filterProducts('kurtas', this)">Kurtas</button>
+          <button class="filter-btn" onclick="filterProducts('coords', this)">Co-ords</button>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
+      </div>
+    </section>
+
+    <!-- LOOKBOOK -->
+    <section class="lookbook-section section" style="background:#faf8f5">
+      <div class="container">
+        <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px">
+          <div>
+            <p class="section-label">Style Inspo</p>
+            <h2 class="section-title">The Lookbook</h2>
+          </div>
+          <a href="#products" style="font-size:0.82rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#c4956a;text-decoration:none;border-bottom:1px solid #c4956a;padding-bottom:2px">View All →</a>
+        </div>
+        <div class="lookbook-scroll">
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300&q=80" alt="Look 1" />
+            <div class="lookbook-overlay"><span class="lookbook-tag">Summer Edit</span><div class="lookbook-name">Floral Vibes</div></div>
+          </div>
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300&q=80" alt="Look 2" />
+            <div class="lookbook-overlay"><span class="lookbook-tag">Everyday</span><div class="lookbook-name">City Girl</div></div>
+          </div>
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=300&q=80" alt="Look 3" />
+            <div class="lookbook-overlay"><span class="lookbook-tag">Festive</span><div class="lookbook-name">Ethnic Glow</div></div>
+          </div>
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=300&q=80" alt="Look 4" />
+            <div class="lookbook-overlay"><span class="lookbook-tag">Weekend</span><div class="lookbook-name">Casual Chic</div></div>
+          </div>
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=300&q=80" alt="Look 5" />
+            <div class="lookbook-overlay"><span class="lookbook-tag">Office</span><div class="lookbook-name">Power Look</div></div>
+          </div>
+          <div class="lookbook-item">
+            <img src="https://images.unsplash.com/photo-1550614000-4895a10e1bfd?w=300&q=80" alt="Look 6" />
+            <div class="lookbook-overlay"><span class="lookbook-tag">Evening</span><div class="lookbook-name">Night Out</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO BANNER -->
+    <section class="promo-banner">
+      <div class="container">
+        <div class="promo-inner">
+          <div class="promo-text">
+            <p class="promo-label">Limited Time</p>
+            <h2 class="promo-title">End of Season Sale</h2>
+            <p class="promo-desc">Up to 50% off on selected styles. Use code <strong>DRAPE10</strong> for an extra 10% off.</p>
+            <button class="btn-promo" onclick="filterProducts('all', document.querySelector('.filter-btn'))">Shop Sale</button>
+          </div>
+          <div class="promo-visual">
+            <div class="promo-number">50<span>%</span></div>
+            <div class="promo-sub">OFF</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section" style="background:white">
+      <div class="container">
+        <div class="section-head" style="text-align:center;margin-bottom:48px">
+          <p class="section-label" style="justify-content:center">Happy Customers</p>
+          <h2 class="section-title">What They're Saying</h2>
+        </div>
+        <div class="testi-grid">
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"Ordered the Floral Summer Dress and received it in 2 days! The quality is amazing. Will definitely order more!"</p>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#c4956a,#e8b88a)">P</div>
+              <div><div class="testi-name">Priya Sharma</div><div class="testi-role">Mumbai</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"The Co-ord Set is stunning! Got so many compliments at my friend's wedding. Love DRAPE!"</p>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#a8cce8,#3b82f6)">A</div>
+              <div><div class="testi-name">Ananya Iyer</div><div class="testi-role">Bengaluru</div></div>
+            </div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">"The AI chatbot helped me find the perfect kurta for Diwali in under 2 minutes! Super fast delivery too."</p>
+            <div class="testi-author">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#a8e8c4,#10b981)">R</div>
+              <div><div class="testi-name">Riya Patel</div><div class="testi-role">Ahmedabad</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features section">
+      <div class="container">
+        <div class="features-grid">
+          <div class="feature-item"><div class="feature-icon">🚚</div><h4>Free Shipping</h4><p>On all orders above ₹1999</p></div>
+          <div class="feature-item"><div class="feature-icon">↩️</div><h4>Easy Returns</h4><p>15-day hassle-free returns</p></div>
+          <div class="feature-item"><div class="feature-icon">🔒</div><h4>Secure Payment</h4><p>100% secure transactions</p></div>
+          <div class="feature-item"><div class="feature-icon">💬</div><h4>AI Style Help</h4><p>24/7 fashion assistant</p></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">DRAPE</div>
+          <p>Fashion that speaks before you do. Curated pieces for the modern wardrobe.</p>
+          <div class="footer-socials">
+            <a href="#">📸</a><a href="#">📌</a><a href="#">🐦</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <a href="#">New Arrivals</a><a href="#">Dresses</a><a href="#">Tops</a><a href="#">Kurtas</a><a href="#">Co-ords</a>
+        </div>
+        <div class="footer-col">
+          <h4>Help</h4>
+          <a href="#">Size Guide</a><a href="#">Shipping Info</a><a href="#">Returns</a><a href="#">Track Order</a><a href="#">Contact Us</a>
+        </div>
+        <div class="footer-col">
+          <h4>Stay in the loop</h4>
+          <p style="font-size:0.85rem;margin-bottom:12px;color:#aaa">Get new arrivals and exclusive offers.</p>
+          <div class="footer-newsletter">
+            <input type="email" placeholder="your@email.com" />
+            <button>→</button>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 DRAPE. All rights reserved.</p>
+        <p>Made with ❤️ by Vaish</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+  <script src="shop.js"></script>
+</body>
+</html>
